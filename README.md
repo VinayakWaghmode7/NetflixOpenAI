@@ -1,6 +1,12 @@
 # NetflixOpenAI
 - create react app
 - configure the TailwindCSS
+- Header
+- Routing a App
+- Login Form
+- Signup Form
+- From Validation 
+- useRef Hook
 
 # Features
 - Login/Sign UP
