@@ -5,7 +5,7 @@
 - Routing a App
 - Login Form
 - Signup Form
-- From Validation 
+- Form Validation 
 - useRef Hook
 
 # Features
