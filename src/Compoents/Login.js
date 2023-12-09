@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react'
 import Header from './Header'
-import { checkValidData } from '../utiles/Validate'
+import { checkValidData, checkValidData1 } from '../utiles/Validate'
+import {  createUserWithEmailAndPassword , signInWithEmailAndPassword} from "firebase/auth";
+import { auth } from '../utiles/firebase';
 
 
 function Login() {
@@ -18,13 +20,56 @@ function Login() {
 
     const handleButtonClick = () =>{
         //Validate the Form 
-        console.log(email.current.value);
-        console.log(password.current.value);
+        console.log(email.current?.value);
+        console.log(password.current?.value);
+        console.log(name.current?.value);
       
+        let validation;
+        let validation1;
 
-        const validation = checkValidData(email.current.value, password.current.value, name.current.value);
+        if(isSignInForm ){
+         validation = checkValidData(email.current?.value, password.current?.value);
         setErrorMessage(validation);
+        console.log(validation);}
+        else{
+         validation1 = checkValidData1(name.current?.value);
+        setErrorMessage(validation1);}
+        
 
+    
+        if(validation || validation1) return;  //if validation value is null that means email and password valid then not return a funtion go to next line. if validation value is email not vaild or password not valid then return a handleclick function & not to go next line.
+
+        if(!isSignInForm){
+            //Sign Up form Logic
+            createUserWithEmailAndPassword(auth, email.current?.value, password.current?.value)
+          .then((userCredential) => {
+           // Signed up 
+         const user = userCredential.user;
+         console.log(user);
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    setErrorMessage(errorCode + "" + errorMessage);
+    // ..
+  });
+        }
+       else{
+        //Sign In form Logic
+         signInWithEmailAndPassword(auth, email.current?.value, password.current?.value)
+        .then((userCredential) => {
+    // Signed in 
+         const user = userCredential.user;
+         console.log(user);
+    // ...
+  })
+      .catch((error) => {
+      const errorCode = error.code;
+      //const errorMessage = error.message;
+      setErrorMessage(errorCode );
+  });
+       }
     }
 
   return (
@@ -39,7 +84,8 @@ function Login() {
         } className='w-3/12 text-white p-8 bg-black absolute my-36 mx-auto right-0 left-0 rounded-lg bg-opacity-80'>
             
             <h1 className='font-bold text-3xl py-4 '>{isSignInForm ?"Sign In":"Sign Up"}</h1>
-            { !isSignInForm && <input ref={name} type="text" placeholder="Full Name" className='p-4 my-4 w-full bg-gray-700'/>}
+            { !isSignInForm && <input ref={name} type="text" placeholder="Full Name" className='p-4 my-4 w-full bg-gray-700'/>
+            }
 
             <input ref={email} type="text" placeholder="Email" className='p-4 my-4 w-full bg-gray-700'/>
             <input ref={password} type="Password" placeholder='Password' className='p-4 my-4 w-full bg-gray-700'/>
