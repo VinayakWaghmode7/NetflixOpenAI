@@ -2,10 +2,6 @@ import React, { useEffect } from 'react'
 import { signOut } from "firebase/auth";
 import {auth } from '../utiles/firebase'
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-
-
-
 
 
 function Header() {
