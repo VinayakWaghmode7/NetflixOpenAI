@@ -3,6 +3,7 @@ import Header from './Header'
 import { checkValidData, checkValidData1 } from '../utiles/Validate'
 import {  createUserWithEmailAndPassword , signInWithEmailAndPassword} from "firebase/auth";
 import { auth } from '../utiles/firebase';
+import { useNavigate } from 'react-router-dom';
 
 
 function Login() {
@@ -12,7 +13,8 @@ function Login() {
 
     const email = useRef(null);
     const password = useRef(null);
-    const name = useRef(null); 
+    const name = useRef(null);
+    const navigate = useNavigate(); 
 
     const toggleSignInForm = () =>{
         setIsSignInForm(!isSignInForm);
@@ -39,13 +41,14 @@ function Login() {
     
         if(validation || validation1) return;  //if validation value is null that means email and password valid then not return a funtion go to next line. if validation value is email not vaild or password not valid then return a handleclick function & not to go next line.
 
-        if(!isSignInForm){
+  if(!isSignInForm){
             //Sign Up form Logic
             createUserWithEmailAndPassword(auth, email.current?.value, password.current?.value)
           .then((userCredential) => {
            // Signed up 
          const user = userCredential.user;
          console.log(user);
+         navigate("/browse");
     // ...
   })
   .catch((error) => {
@@ -54,14 +57,15 @@ function Login() {
     setErrorMessage(errorCode + "" + errorMessage);
     // ..
   });
-        }
-       else{
+}
+   else{
         //Sign In form Logic
          signInWithEmailAndPassword(auth, email.current?.value, password.current?.value)
         .then((userCredential) => {
     // Signed in 
          const user = userCredential.user;
          console.log(user);
+         navigate("/browse");
     // ...
   })
       .catch((error) => {
