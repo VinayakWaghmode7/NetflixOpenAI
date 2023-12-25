@@ -7,7 +7,7 @@
 - Signup Form
 - Form Validation 
 - useRef Hook
-
+- Routing to the Browse page if user is login else return to the main page
 # Features
 - Login/Sign UP
    - Sign In/Sign Up Form

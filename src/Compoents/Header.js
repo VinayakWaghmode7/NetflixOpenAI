@@ -36,7 +36,7 @@ function Header() {
 
       navigate('/');
       console.log('After navigate');
-      // Sign-out successful.
+      // Sign-out successfully.
     } catch (error) {
       // An error happened.
       console.error('Error during sign out:', error);
